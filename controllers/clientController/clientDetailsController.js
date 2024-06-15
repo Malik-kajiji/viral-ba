@@ -39,17 +39,17 @@ const changePassword = async (req,res) => {
 }
 
 const removeAcc = async (req,res) => {
-    const { _id } = req.client
+    const { client_id } = req.client
     const { password } = req.body
 
     try {
-        const virus = await clientModel.findOne({_id})
+        const virus = await clientModel.findOne({_id:client_id})
 
         const match = await bcrypt.compare(password,virus.password)
         if(!match){
             res.status(400).json({message:'كلمة المرور غير صحيحة'})
         }else {
-            const user = await clientModel.updateIsLocked(_id,true)
+            const user = await clientModel.updateIsLocked(client_id,true)
             res.status(200).json({
                 user
             })
