@@ -42,6 +42,10 @@ app.use(cors({
     credentials:true
 }))
 
+app.get('/test',(req,res)=>{
+    res.send('<h1>works fine!</h1>')
+})
+
 // virus end points
 app.use('/virus',virusRouter)
 app.use('/virus-task',virusTaskRoutes)
@@ -65,29 +69,6 @@ app.use('/home',adminHomeRoutes)
 app.use('/owner',ownerLoginRoutes)
 app.use('/owner-admin',ownerAdminRoutes)
 
-
-// app.use('/video',videoRoutes)
-// app.use('/tasks',taskRoutes)
-
-const {createTasksForThisWeakV2} = require('./controllers/taskController')
-
-app.get('/test-tasks', async (req,res)=>{
-    await createTasksForThisWeakV2()
-    res.status(200).json({message:'done successfully'})
-})
-
-const postModel = require('./models/post')
-const taskModel = require('./models/task')
-const videoModel = require('./models/videos')
-const packageModel = require('./models/package')
-
-app.get('/clear-data',async (req,res) => {
-    await postModel.deleteMany()
-    await taskModel.deleteMany()
-    await videoModel.deleteMany()
-    await packageModel.deleteMany()
-    res.status(200).json({message:'done successfully'})
-})
 
 
 mongoose.connect(process.env.MONGODB_URL)
